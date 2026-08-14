@@ -3,203 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EAGspecialistcars Vehicle Tracking</title>
-
+<title>EAGspecialistcars Tracking</title>
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0b0b0b;
-  color: white;
-}
-
-header {
-  background: #111;
-  padding: 22px;
-  font-size: 25px;
-  font-weight: bold;
-}
-
-header span {
-  color: #e11;
-}
-
-.hero {
-  text-align: center;
-  padding: 70px 20px;
-}
-
-h1 {
-  font-size: 40px;
-}
-
-p {
-  color: #ccc;
-}
-
-.tracking-box {
-  max-width: 650px;
-  margin: 30px auto;
-}
-
-input {
-  width: 100%;
-  padding: 18px;
-  box-sizing: border-box;
-  border: none;
-  border-radius: 10px;
-  font-size: 17px;
-  margin-bottom: 12px;
-}
-
-button {
-  width: 100%;
-  padding: 18px;
-  background: #e11;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-#result {
-  display: none;
-  max-width: 650px;
-  margin: 25px auto;
-  padding: 25px;
-  background: white;
-  color: #111;
-  border-radius: 12px;
-  text-align: left;
-}
-
-.status {
-  color: green;
-  font-weight: bold;
-}
-
-.card {
-  background: white;
-  color: #111;
-  padding: 25px;
-  margin-top: 30px;
-  text-align: center;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#0b0b0b;color:#fff}
+header{background:#111;padding:22px;font-size:25px;font-weight:bold}
+header span{color:#e11}
+.hero{text-align:center;padding:60px 20px}
+h1{font-size:40px}
+.tracking{max-width:650px;margin:30px auto}
+input{width:100%;padding:18px;box-sizing:border-box;border:0;border-radius:10px;font-size:17px;margin-bottom:12px}
+button{width:100%;padding:18px;background:#e11;color:#fff;border:0;border-radius:10px;font-size:18px;font-weight:bold}
+#result{display:none;max-width:650px;margin:25px auto;background:#fff;color:#111;padding:25px;border-radius:12px;text-align:left}
+.row{padding:13px 0;border-bottom:1px solid #ddd}
+.status{color:green;font-weight:bold}
 </style>
 </head>
 
 <body>
 
-<header>
-  <span>EAG</span>specialistcars
-</header>
+<header><span>EAG</span>specialistcars</header>
 
 <section class="hero">
 
-  <div style="font-size:50px;">🚚</div>
+<div style="font-size:50px">🚚</div>
 
-  <h1>TRACK YOUR VEHICLE / SHIPMENT</h1>
+<h1>TRACK YOUR VEHICLE / SHIPMENT</h1>
 
-  <p>
-    Enter your tracking number below to get your shipment status.
-  </p>
+<p>Enter your tracking number below to get your shipment status.</p>
 
-  <div class="tracking-box">
+<div class="tracking">
 
-    <input
-      id="trackingNumber"
-      type="text"
-      placeholder="Enter your tracking number"
-    >
+<input id="trackingNumber" placeholder="Enter your tracking number">
 
-    <button onclick="trackShipment()">
-      TRACK
-    </button>
+<button onclick="trackShipment()">TRACK</button>
 
-  </div>
+</div>
 
-  <div id="result">
+<div id="result">
 
-    <h2>Shipment Tracking</h2>
+<h2>Shipment Tracking</h2>
 
-    <p>
-      <strong>Tracking Number:</strong>
-      <span id="displayNumber"></span>
-    </p>
+<div class="row"><b>Tracking Number:</b> <span id="number"></span></div>
 
-    <p>
-      <strong>Status:</strong>
-      <span class="status">IN TRANSIT</span>
-    </p>
+<div class="row"><b>Customer:</b> John Smith</div>
 
-    <p>
-      <strong>Current Location:</strong>
-      Dallas, TX
-    </p>
+<div class="row"><b>Vehicle:</b> 2024 Toyota Camry</div>
 
-    <p>
-      <strong>Destination:</strong>
-      Jacksonville, FL
-    </p>
+<div class="row"><b>Pickup:</b> Miami, FL</div>
 
-    <p>
-      <strong>Estimated Delivery:</strong>
-      August 18, 2026
-    </p>
+<div class="row"><b>Destination:</b> Jacksonville, FL</div>
 
-    <p>
-      <strong>Vehicle:</strong>
-      Vehicle Shipment
-    </p>
+<div class="row"><b>Current Location:</b> Orlando, FL</div>
 
-  </div>
+<div class="row"><b>Status:</b> <span class="status">IN TRANSIT</span></div>
+
+<div class="row"><b>Estimated Delivery:</b> August 18, 2026</div>
+
+</div>
 
 </section>
 
-<div class="card">
-  🛡️ <strong>Secure & Safe</strong>
-  <br><br>
-  Your shipment information is protected.
-  <br><br>
-  📍 <strong>Vehicle Delivery</strong>
-  <br><br>
-  Track your vehicle journey.
-</div>
-
 <script>
 
-function trackShipment() {
+function trackShipment(){
 
-  var number =
-    document.getElementById("trackingNumber").value
-    .trim()
-    .toUpperCase();
+let number=document
+.getElementById("trackingNumber")
+.value
+.trim()
+.toUpperCase();
 
-  if (number === "") {
+if(number==="240814-7X8K2" || number==="-240814-7X8K2"){
 
-    alert("Please enter a tracking number.");
+document.getElementById("number").innerText=number;
 
-    return;
-  }
+document.getElementById("result").style.display="block";
 
-  if (
-    number === "240814-7X8K2" ||
-    number === "-240814-7X8K2"
-  ) {
+}else{
 
-    document.getElementById("displayNumber").innerText = number;
+alert("Tracking number not found. Try 240814-7X8K2");
 
-    document.getElementById("result").style.display = "block";
+document.getElementById("result").style.display="none";
 
-  } else {
-
-    alert(
-      "Tracking number not found. Try: 240814-7X8K2"
-    );
-
-    document.getElementById("result").style.display = "none";
-  }
+}
 
 }
 
