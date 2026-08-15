@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EAGspecialistcars Admin</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0b0b0b;
+  color:white;
+}
+
+header{
+  background:#111;
+  padding:22px;
+  font-size:25px;
+  font-weight:bold;
+}
+
+header span{
+  color:#e11;
+}
+
+.container{
+  max-width:650px;
+  margin:30px auto;
+  padding:20px;
+}
+
+h1{
+  text-align:center;
+}
+
+label{
+  display:block;
+  margin-top:18px;
+  margin-bottom:7px;
+  font-weight:bold;
+}
+
+input,select{
+  width:100%;
+  padding:15px;
+  box-sizing:border-box;
+  border-radius:8px;
+  border:1px solid #444;
+  background:#fff;
+  color:#111;
+  font-size:16px;
+}
+
+button{
+  width:100%;
+  margin-top:25px;
+  padding:17px;
+  border:0;
+  border-radius:8px;
+  background:#e11;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.notice{
+  margin-top:25px;
+  padding:15px;
+  background:#191919;
+  border-radius:8px;
+  color:#ccc;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<span>EAG</span>specialistcars — Admin
+</header>
+
+<div class="container">
+
+<h1>Create Shipment</h1>
+
+<label>Tracking Number</label>
+<input type="text" placeholder="Example: 240814-7X8K2">
+
+<label>Customer Name</label>
+<input type="text" placeholder="Customer name">
+
+<label>Vehicle</label>
+<input type="text" placeholder="Example: 2024 Toyota Camry">
+
+<label>Pickup Location</label>
+<input type="text" placeholder="Example: Miami, FL">
+
+<label>Destination</label>
+<input type="text" placeholder="Example: Jacksonville, FL">
+
+<label>Current Location</label>
+<input type="text" placeholder="Example: Orlando, FL">
+
+<label>Status</label>
+<select>
+  <option>IN TRANSIT</option>
+  <option>PROCESSING</option>
+  <option>DELIVERED</option>
+  <option>DELAYED</option>
+</select>
+
+<label>Estimated Delivery</label>
+<input type="date">
+
+<button type="button">
+Create Shipment
+</button>
+
+<div class="notice">
+This is the dashboard interface only. Do not enter real customer information yet. A secure login and database need to be connected before using this for real shipments.
+</div>
+
+</div>
+
+</body>
+</html>
