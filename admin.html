@@ -89,22 +89,22 @@ button{
 <input type="text" id="trackingNumber" placeholder="Tracking number will be generated automatically" readonly>
 
 <label>Customer Name</label>
-<input type="text" placeholder="Customer name">
+<input type="text" id="customerName" placeholder="Customer name">
 
 <label>Vehicle</label>
-<input type="text" placeholder="Example: 2024 Toyota Camry">
+<input type="text" id="vehicle" placeholder="Example: 2024 Toyota Camry">
 
 <label>Pickup Location</label>
-<input type="text" placeholder="Example: Miami, FL">
+<input type="text" id="pickupLocation" placeholder="Example: Miami, FL">
 
 <label>Destination</label>
-<input type="text" placeholder="Example: Jacksonville, FL">
+<input type="text" id="destination" placeholder="Example: Jacksonville, FL">
 
 <label>Current Location</label>
-<input type="text" placeholder="Example: Orlando, FL">
+<input type="text" id="currentLocation" placeholder="Example: Orlando, FL">
 
 <label>Status</label>
-<select>
+<select id="status">
   <option>IN TRANSIT</option>
   <option>PROCESSING</option>
   <option>DELIVERED</option>
@@ -112,7 +112,7 @@ button{
 </select>
 
 <label>Estimated Delivery</label>
-<input type="date">
+<input type="date" id="estimatedDelivery">
 
 <button type="button" id="createShipment">
 Create Shipment
@@ -124,7 +124,10 @@ This is the dashboard interface only. Do not enter real customer information yet
 
 </div>
 <script>
-document.getElementById("createShipment").addEventListener("click", function () {
+const SUPABASE_URL = "https://irnmovwfxnbesaqbfwap.supabase.co"
+const SUPABASE_KEY = "sb_publishable_ndH12YWeY7NaO5TYiL9Ayw_IXbRebMF"
+
+document.getElementById("createShipment").addEventListener("click", async function () {
     const trackingInput = document.getElementById("trackingNumber");
 
     const date = new Date();
@@ -141,7 +144,37 @@ document.getElementById("createShipment").addEventListener("click", function () 
         );
     }
 
-    trackingInput.value = `${y}${m}${d}-${code}`;
+    const trackingNumber = `${y}${m}${d}-${code}`;
+
+    trackingInput.value = trackingNumber;
+
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/shipments`, {
+        method: "POST",
+        headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`,
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({
+    "tracking_number": trackingNumber,
+    "customer_name": document.getElementById("customerName").value,
+    "vehicle": document.getElementById("vehicle").value,
+    "pickup_location": document.getElementById("pickupLocation").value,
+    "destination": document.getElementById("destination").value,
+    "current_location": document.getElementById("currentLocation").value,
+    "status": document.getElementById("status").value,
+    "estimated_delivery": document.getElementById("estimatedDelivery").value
+})
+    });
+
+    if (response.ok) {
+        alert("Shipment created successfully!");
+    } else {
+        const error = await response.text();
+        console.error(error);
+        alert("Tracking number was generated, but it could not be saved.");
+    }
 });
 </script>
 </body>
