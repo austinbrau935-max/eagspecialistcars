@@ -173,7 +173,7 @@ document.getElementById("createShipment").addEventListener("click", async functi
     } else {
         const error = await response.text();
         console.error(error);
-        alert("Tracking number was generated, but it could not be saved.");
+        alert("Save failed: " + error);
     }
 });
 </script>
