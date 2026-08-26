@@ -34,6 +34,12 @@ h1{
   text-align:center;
 }
 
+h2{
+  margin-top:40px;
+  border-top:1px solid #333;
+  padding-top:30px;
+}
+
 label{
   display:block;
   margin-top:18px;
@@ -86,7 +92,8 @@ button{
 <h1>Create Shipment</h1>
 
 <label>Tracking Number</label>
-<input type="text" id="trackingNumber" placeholder="Tracking number will be generated automatically" readonly>
+<input type="text" id="trackingNumber"
+placeholder="Tracking number will be generated automatically" readonly>
 
 <label>Customer Name</label>
 <input type="text" id="customerName" placeholder="Customer name">
@@ -118,24 +125,59 @@ button{
 Create Shipment
 </button>
 
+
+<h2>Update Shipment</h2>
+
+<label>Existing Tracking Number</label>
+<input type="text" id="updateTrackingNumber"
+placeholder="Example: 260823-U4A8E">
+
+<label>New Current Location</label>
+<input type="text" id="updateCurrentLocation"
+placeholder="Example: Orlando, FL">
+
+<label>New Status</label>
+<select id="updateStatus">
+  <option>PROCESSING</option>
+  <option>IN TRANSIT</option>
+  <option>DELIVERED</option>
+  <option>DELAYED</option>
+</select>
+
+<label>New Estimated Delivery</label>
+<input type="date" id="updateEstimatedDelivery">
+
+<button type="button" id="updateShipment">
+Update Shipment
+</button>
+
+
 <div class="notice">
-This is the dashboard interface only. Do not enter real customer information yet. A secure login and database need to be connected before using this for real shipments.
+Create a shipment once. Use the Update Shipment section later to change its status, current location, or estimated delivery. The customer's tracking number stays the same.
 </div>
 
 </div>
+
 <script>
-const SUPABASE_URL = "https://irnmovwfxnbesaqbfwap.supabase.co"
-const SUPABASE_KEY = "sb_publishable_ndH12YWeY7NaO5TYiL9Ayw_IXbRebMF"
+
+const SUPABASE_URL = "https://irnmovwfxnbesaqbfwap.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ndH12YWeY7NaO5TYiL9Ayw_IXbRebMF";
+
+
+/* CREATE SHIPMENT */
 
 document.getElementById("createShipment").addEventListener("click", async function () {
+
     const trackingInput = document.getElementById("trackingNumber");
 
     const date = new Date();
+
     const y = String(date.getFullYear()).slice(-2);
     const m = String(date.getMonth() + 1).padStart(2, "0");
     const d = String(date.getDate()).padStart(2, "0");
 
     const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
     let code = "";
 
     for (let i = 0; i < 5; i++) {
@@ -150,32 +192,107 @@ document.getElementById("createShipment").addEventListener("click", async functi
 
     const response = await fetch(`${SUPABASE_URL}/rest/v1/shipments`, {
         method: "POST",
+
         headers: {
             "apikey": SUPABASE_KEY,
             "Authorization": `Bearer ${SUPABASE_KEY}`,
             "Content-Type": "application/json",
             "Prefer": "return=minimal"
         },
+
         body: JSON.stringify({
-    "tracking_number": trackingNumber,
-    "customer_name": document.getElementById("customerName").value,
-    "vehicle": document.getElementById("vehicle").value,
-    "pickup_location": document.getElementById("pickupLocation").value,
-    "destination": document.getElementById("destination").value,
-    "current_location": document.getElementById("currentLocation").value,
-    "status": document.getElementById("status").value,
-    "estimated_delivery": document.getElementById("estimatedDelivery").value
-})
+            "tracking_number": trackingNumber,
+            "customer_name": document.getElementById("customerName").value,
+            "vehicle": document.getElementById("vehicle").value,
+            "pickup_location": document.getElementById("pickupLocation").value,
+            "destination": document.getElementById("destination").value,
+            "current_location": document.getElementById("currentLocation").value,
+            "status": document.getElementById("status").value,
+            "estimated_delivery": document.getElementById("estimatedDelivery").value
+        })
     });
 
     if (response.ok) {
-        alert("Shipment created successfully!");
+
+        alert("Shipment created successfully!\nTracking Number: " + trackingNumber);
+
     } else {
+
         const error = await response.text();
+
         console.error(error);
+
         alert("Save failed: " + error);
     }
+
 });
+
+
+/* UPDATE SHIPMENT */
+
+document.getElementById("updateShipment").addEventListener("click", async function () {
+
+    const trackingNumber = document
+        .getElementById("updateTrackingNumber")
+        .value
+        .trim()
+        .toUpperCase();
+
+    const currentLocation =
+        document.getElementById("updateCurrentLocation").value;
+
+    const status =
+        document.getElementById("updateStatus").value;
+
+    const estimatedDelivery =
+        document.getElementById("updateEstimatedDelivery").value;
+
+
+    if (!trackingNumber) {
+
+        alert("Please enter the existing tracking number.");
+
+        return;
+    }
+
+
+    const response = await fetch(
+        `${SUPABASE_URL}/rest/v1/shipments?tracking_number=eq.${encodeURIComponent(trackingNumber)}`,
+        {
+            method: "PATCH",
+
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": `Bearer ${SUPABASE_KEY}`,
+                "Content-Type": "application/json",
+                "Prefer": "return=minimal"
+            },
+
+            body: JSON.stringify({
+                "current_location": currentLocation,
+                "status": status,
+                "estimated_delivery": estimatedDelivery
+            })
+        }
+    );
+
+
+    if (response.ok) {
+
+        alert("Shipment updated successfully!");
+
+    } else {
+
+        const error = await response.text();
+
+        console.error(error);
+
+        alert("Update failed: " + error);
+    }
+
+});
+
 </script>
+
 </body>
 </html>
