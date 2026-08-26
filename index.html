@@ -44,49 +44,102 @@ button{width:100%;padding:18px;background:#e11;color:#fff;border:0;border-radius
 <h2>Shipment Tracking</h2>
 
 <div class="row"><b>Tracking Number:</b> <span id="number"></span></div>
+<div class="row"><b>Customer:</b> <span id="customer"></span></div>
 
-<div class="row"><b>Customer:</b> John Smith</div>
+<div class="row"><b>Vehicle:</b> <span id="vehicle"></span></div>
 
-<div class="row"><b>Vehicle:</b> 2024 Toyota Camry</div>
+<div class="row"><b>Pickup:</b> <span id="pickup"></span></div>
 
-<div class="row"><b>Pickup:</b> Miami, FL</div>
+<div class="row"><b>Destination:</b> <span id="destination"></span></div>
 
-<div class="row"><b>Destination:</b> Jacksonville, FL</div>
+<div class="row"><b>Current Location:</b> <span id="currentLocation"></span></div>
 
-<div class="row"><b>Current Location:</b> Orlando, FL</div>
+<div class="row"><b>Status:</b> <span id="status" class="status"></span></div>
 
-<div class="row"><b>Status:</b> <span class="status">IN TRANSIT</span></div>
-
-<div class="row"><b>Estimated Delivery:</b> August 18, 2026</div>
-
+<div class="row"><b>Estimated Delivery:</b> <span id="estimatedDelivery"></span></div>
 </div>
 
 </section>
 
 <script>
 
-function trackShipment(){
+const SUPABASE_URL = "https://irnmovwfxnbesaqbfwap.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ndH12YWeY7NaO5TYiL9Ayw_IXbRebMF";
 
-let number=document
-.getElementById("trackingNumber")
-.value
-.trim()
-.toUpperCase();
+async function trackShipment() {
 
-if(number==="240814-7X8K2" || number==="-240814-7X8K2"){
+    const number = document
+        .getElementById("trackingNumber")
+        .value
+        .trim()
+        .toUpperCase();
 
-document.getElementById("number").innerText=number;
+    if (!number) {
+        alert("Please enter your tracking number.");
+        return;
+    }
 
-document.getElementById("result").style.display="block";
+    try {
 
-}else{
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/shipments?tracking_number=eq.${encodeURIComponent(number)}&select=*`,
+            {
+                method: "GET",
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_KEY}`
+                }
+            }
+        );
 
-alert("Tracking number not found. Try 240814-7X8K2");
+        const data = await response.json();
 
-document.getElementById("result").style.display="none";
+        if (!response.ok) {
+            console.error(data);
+            alert("Unable to check tracking information.");
+            return;
+        }
 
-}
+        if (data.length === 0) {
+            alert("Tracking number not found.");
+            document.getElementById("result").style.display = "none";
+            return;
+        }
 
+        const shipment = data[0];
+
+        document.getElementById("number").innerText =
+            shipment.tracking_number || "";
+
+        document.getElementById("customer").innerText =
+            shipment.customer_name || "";
+
+        document.getElementById("vehicle").innerText =
+            shipment.vehicle || "";
+
+        document.getElementById("pickup").innerText =
+            shipment.pickup_location || "";
+
+        document.getElementById("destination").innerText =
+            shipment.destination || "";
+
+        document.getElementById("currentLocation").innerText =
+            shipment.current_location || "";
+
+        document.getElementById("status").innerText =
+            shipment.status || "";
+
+        document.getElementById("estimatedDelivery").innerText =
+            shipment.estimated_delivery || "";
+
+        document.getElementById("result").style.display = "block";
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Something went wrong while checking the tracking number.");
+
+    }
 }
 
 </script>
