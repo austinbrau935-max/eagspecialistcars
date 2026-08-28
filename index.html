@@ -3,144 +3,655 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EAGspecialistcars Tracking</title>
+
+<title>EAGspecialistcars | Vehicle Tracking</title>
+
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#0b0b0b;color:#fff}
-header{background:#111;padding:22px;font-size:25px;font-weight:bold}
-header span{color:#e11}
-.hero{text-align:center;padding:60px 20px}
-h1{font-size:40px}
-.tracking{max-width:650px;margin:30px auto}
-input{width:100%;padding:18px;box-sizing:border-box;border:0;border-radius:10px;font-size:17px;margin-bottom:12px}
-button{width:100%;padding:18px;background:#e11;color:#fff;border:0;border-radius:10px;font-size:18px;font-weight:bold}
-#result{display:none;max-width:650px;margin:25px auto;background:#fff;color:#111;padding:25px;border-radius:12px;text-align:left}
-.row{padding:13px 0;border-bottom:1px solid #ddd}
-.status{color:green;font-weight:bold}
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#080808;
+  color:#fff;
+}
+
+header{
+  background:#101010;
+  border-bottom:1px solid #292929;
+  padding:20px;
+}
+
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.logo span{
+  color:#e11;
+}
+
+.header-text{
+  color:#aaa;
+  font-size:14px;
+}
+
+.hero{
+  padding:75px 20px 45px;
+  text-align:center;
+  background:
+    radial-gradient(circle at top,#252525 0,#101010 35%,#080808 70%);
+}
+
+.truck{
+  font-size:55px;
+  margin-bottom:15px;
+}
+
+.hero h1{
+  max-width:850px;
+  margin:0 auto;
+  font-size:42px;
+  line-height:1.1;
+  letter-spacing:-1px;
+}
+
+.hero p{
+  max-width:650px;
+  margin:18px auto 0;
+  color:#bdbdbd;
+  font-size:17px;
+  line-height:1.6;
+}
+
+.tracking-box{
+  max-width:700px;
+  margin:35px auto 0;
+  background:#151515;
+  border:1px solid #303030;
+  border-radius:16px;
+  padding:25px;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.tracking-label{
+  display:block;
+  text-align:left;
+  margin-bottom:9px;
+  font-weight:bold;
+  font-size:14px;
+  color:#ddd;
+}
+
+.search-row{
+  display:flex;
+  gap:10px;
+}
+
+input{
+  flex:1;
+  min-width:0;
+  padding:17px;
+  border:1px solid #444;
+  border-radius:9px;
+  background:#fff;
+  color:#111;
+  font-size:16px;
+  outline:none;
+}
+
+input:focus{
+  border-color:#e11;
+}
+
+button{
+  padding:17px 27px;
+  border:0;
+  border-radius:9px;
+  background:#e11;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#c00;
+}
+
+.help-text{
+  text-align:left;
+  margin-top:12px;
+  color:#888;
+  font-size:13px;
+}
+
+#result{
+  display:none;
+  max-width:850px;
+  margin:35px auto;
+  background:#fff;
+  color:#111;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 15px 45px rgba(0,0,0,.4);
+}
+
+.result-header{
+  background:#151515;
+  color:#fff;
+  padding:22px 25px;
+}
+
+.result-header h2{
+  margin:0;
+  font-size:23px;
+}
+
+.result-header p{
+  margin:7px 0 0;
+  color:#aaa;
+  font-size:14px;
+}
+
+.result-body{
+  padding:25px;
+}
+
+.status-box{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  background:#f5f5f5;
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:20px;
+}
+
+.status-title{
+  color:#666;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.status{
+  display:inline-block;
+  color:#087a32;
+  background:#e5f7eb;
+  padding:7px 12px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 25px;
+}
+
+.row{
+  padding:17px 0;
+  border-bottom:1px solid #e5e5e5;
+}
+
+.row-label{
+  display:block;
+  color:#777;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin-bottom:5px;
+}
+
+.row-value{
+  font-size:16px;
+  font-weight:600;
+}
+
+.error-message{
+  display:none;
+  max-width:700px;
+  margin:20px auto 0;
+  padding:15px;
+  background:#351010;
+  border:1px solid #762020;
+  color:#ffb0b0;
+  border-radius:9px;
+  font-size:14px;
+}
+
+footer{
+  margin-top:70px;
+  padding:30px 20px;
+  text-align:center;
+  background:#101010;
+  border-top:1px solid #292929;
+  color:#777;
+  font-size:13px;
+}
+
+@media(max-width:650px){
+
+  .header-inner{
+    display:block;
+    text-align:center;
+  }
+
+  .header-text{
+    margin-top:7px;
+  }
+
+  .hero{
+    padding:55px 15px 35px;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .tracking-box{
+    padding:18px;
+  }
+
+  .search-row{
+    display:block;
+  }
+
+  input{
+    width:100%;
+    margin-bottom:10px;
+  }
+
+  button{
+    width:100%;
+  }
+
+  #result{
+    margin:25px 15px;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+
+  .status-box{
+    display:block;
+  }
+
+  .status-box .status{
+    margin-top:10px;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<header><span>EAG</span>specialistcars</header>
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span>EAG</span>specialistcars
+    </div>
+
+    <div class="header-text">
+      Vehicle & Shipment Tracking
+    </div>
+  </div>
+</header>
+
 
 <section class="hero">
 
-<div style="font-size:50px">🚚</div>
+  <div class="truck">🚚</div>
 
-<h1>TRACK YOUR VEHICLE / SHIPMENT</h1>
+  <h1>Track Your Vehicle</h1>
 
-<p>Enter your tracking number below to get your shipment status.</p>
+  <p>
+    Enter your shipment tracking number below to view
+    the current location, shipment status and estimated delivery.
+  </p>
 
-<div class="tracking">
 
-<input id="trackingNumber" placeholder="Enter your tracking number">
+  <div class="tracking-box">
 
-<button onclick="trackShipment()">TRACK</button>
+    <label class="tracking-label">
+      Tracking Number
+    </label>
 
-</div>
+    <div class="search-row">
 
-<div id="result">
+      <input
+        id="trackingNumber"
+        placeholder="Example: 260823-U4A8E"
+        autocomplete="off"
+      >
 
-<h2>Shipment Tracking</h2>
+      <button onclick="trackShipment()">
+        Track Shipment
+      </button>
 
-<div class="row"><b>Tracking Number:</b> <span id="number"></span></div>
-<div class="row"><b>Customer:</b> <span id="customer"></span></div>
+    </div>
 
-<div class="row"><b>Vehicle:</b> <span id="vehicle"></span></div>
+    <div class="help-text">
+      Please enter the tracking number provided to you.
+    </div>
 
-<div class="row"><b>Pickup:</b> <span id="pickup"></span></div>
+  </div>
 
-<div class="row"><b>Destination:</b> <span id="destination"></span></div>
 
-<div class="row"><b>Current Location:</b> <span id="currentLocation"></span></div>
+  <div id="errorMessage" class="error-message"></div>
 
-<div class="row"><b>Status:</b> <span id="status" class="status"></span></div>
 
-<div class="row"><b>Estimated Delivery:</b> <span id="estimatedDelivery"></span></div>
-</div>
+  <div id="result">
+
+    <div class="result-header">
+
+      <h2>Shipment Details</h2>
+
+      <p>
+        EAGspecialistcars vehicle tracking
+      </p>
+
+    </div>
+
+
+    <div class="result-body">
+
+      <div class="status-box">
+
+        <div>
+          <div class="status-title">
+            Current Shipment Status
+          </div>
+
+          <strong id="statusText">
+            —
+          </strong>
+        </div>
+
+        <span id="status" class="status">
+          —
+        </span>
+
+      </div>
+
+
+      <div class="info-grid">
+
+        <div class="row">
+
+          <span class="row-label">
+            Tracking Number
+          </span>
+
+          <span id="number" class="row-value">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="row">
+
+          <span class="row-label">
+            Customer
+          </span>
+
+          <span id="customer" class="row-value">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="row">
+
+          <span class="row-label">
+            Vehicle
+          </span>
+
+          <span id="vehicle" class="row-value">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="row">
+
+          <span class="row-label">
+            Pickup Location
+          </span>
+
+          <span id="pickup" class="row-value">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="row">
+
+          <span class="row-label">
+            Destination
+          </span>
+
+          <span id="destination" class="row-value">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="row">
+
+          <span class="row-label">
+            Current Location
+          </span>
+
+          <span id="currentLocation" class="row-value">
+            —
+          </span>
+
+        </div>
+
+
+        <div class="row">
+
+          <span class="row-label">
+            Estimated Delivery
+          </span>
+
+          <span id="estimatedDelivery" class="row-value">
+            —
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
+
+<footer>
+  © 2026 EAGspecialistcars. Vehicle tracking system.
+</footer>
+
+
 <script>
 
-const SUPABASE_URL = "https://irnmovwfxnbesaqbfwap.supabase.co";
-const SUPABASE_KEY = "sb_publishable_ndH12YWeY7NaO5TYiL9Ayw_IXbRebMF";
+const SUPABASE_URL =
+"https://irnmovwfxnbesaqbfwap.supabase.co";
 
-async function trackShipment() {
+const SUPABASE_KEY =
+"sb_publishable_ndH12YWeY7NaO5TYiL9Ayw_IXbRebMF";
 
-    const number = document
-        .getElementById("trackingNumber")
-        .value
-        .trim()
-        .toUpperCase();
 
-    if (!number) {
-        alert("Please enter your tracking number.");
-        return;
+async function trackShipment(){
+
+  const number =
+    document
+      .getElementById("trackingNumber")
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  const result =
+    document.getElementById("result");
+
+  const errorMessage =
+    document.getElementById("errorMessage");
+
+
+  errorMessage.style.display = "none";
+  result.style.display = "none";
+
+
+  if(!number){
+
+    errorMessage.innerText =
+      "Please enter your tracking number.";
+
+    errorMessage.style.display = "block";
+
+    return;
+  }
+
+
+  try{
+
+    const response = await fetch(
+
+      `${SUPABASE_URL}/rest/v1/shipments?tracking_number=eq.${encodeURIComponent(number)}&select=*`,
+
+      {
+        method:"GET",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":`Bearer ${SUPABASE_KEY}`
+        }
+      }
+
+    );
+
+
+    const data = await response.json();
+
+
+    if(!response.ok){
+
+      console.error(data);
+
+      errorMessage.innerText =
+        "Unable to check tracking information. Please try again.";
+
+      errorMessage.style.display = "block";
+
+      return;
     }
 
-    try {
 
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/shipments?tracking_number=eq.${encodeURIComponent(number)}&select=*`,
-            {
-                method: "GET",
-                headers: {
-                    "apikey": SUPABASE_KEY,
-                    "Authorization": `Bearer ${SUPABASE_KEY}`
-                }
-            }
-        );
+    if(data.length === 0){
 
-        const data = await response.json();
+      errorMessage.innerText =
+        "Tracking number not found. Please check the number and try again.";
 
-        if (!response.ok) {
-            console.error(data);
-            alert("Unable to check tracking information.");
-            return;
-        }
+      errorMessage.style.display = "block";
 
-        if (data.length === 0) {
-            alert("Tracking number not found.");
-            document.getElementById("result").style.display = "none";
-            return;
-        }
-
-        const shipment = data[0];
-
-        document.getElementById("number").innerText =
-            shipment.tracking_number || "";
-
-        document.getElementById("customer").innerText =
-            shipment.customer_name || "";
-
-        document.getElementById("vehicle").innerText =
-            shipment.vehicle || "";
-
-        document.getElementById("pickup").innerText =
-            shipment.pickup_location || "";
-
-        document.getElementById("destination").innerText =
-            shipment.destination || "";
-
-        document.getElementById("currentLocation").innerText =
-            shipment.current_location || "";
-
-        document.getElementById("status").innerText =
-            shipment.status || "";
-
-        document.getElementById("estimatedDelivery").innerText =
-            shipment.estimated_delivery || "";
-
-        document.getElementById("result").style.display = "block";
-
-    } catch (error) {
-
-        console.error(error);
-        alert("Something went wrong while checking the tracking number.");
-
+      return;
     }
+
+
+    const shipment = data[0];
+
+
+    document.getElementById("number").innerText =
+      shipment.tracking_number || "—";
+
+
+    document.getElementById("customer").innerText =
+      shipment.customer_name || "—";
+
+
+    document.getElementById("vehicle").innerText =
+      shipment.vehicle || "—";
+
+
+    document.getElementById("pickup").innerText =
+      shipment.pickup_location || "—";
+
+
+    document.getElementById("destination").innerText =
+      shipment.destination || "—";
+
+
+    document.getElementById("currentLocation").innerText =
+      shipment.current_location || "—";
+
+
+    document.getElementById("status").innerText =
+      shipment.status || "—";
+
+
+    document.getElementById("statusText").innerText =
+      shipment.status || "—";
+
+
+    document.getElementById("estimatedDelivery").innerText =
+      shipment.estimated_delivery || "—";
+
+
+    result.style.display = "block";
+
+
+  }catch(error){
+
+    console.error(error);
+
+    errorMessage.innerText =
+      "Something went wrong while checking the tracking number.";
+
+    errorMessage.style.display = "block";
+
+  }
+
 }
+
+
+/* Allow customer to press Enter */
+
+document
+  .getElementById("trackingNumber")
+  .addEventListener("keydown", function(event){
+
+    if(event.key === "Enter"){
+      trackShipment();
+    }
+
+  });
 
 </script>
 
