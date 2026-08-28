@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EAGspecialistcars Admin Login</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0b0b0b;
+  color:white;
+}
+
+.container{
+  max-width:420px;
+  margin:100px auto;
+  padding:25px;
+}
+
+h1{
+  text-align:center;
+}
+
+label{
+  display:block;
+  margin-top:20px;
+  margin-bottom:7px;
+  font-weight:bold;
+}
+
+input{
+  width:100%;
+  padding:15px;
+  box-sizing:border-box;
+  border-radius:8px;
+  border:1px solid #444;
+  font-size:16px;
+}
+
+button{
+  width:100%;
+  margin-top:25px;
+  padding:16px;
+  border:0;
+  border-radius:8px;
+  background:#e11;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+
+#error{
+  margin-top:15px;
+  color:#ff5555;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>EAGspecialistcars</h1>
+
+<h2>Admin Login</h2>
+
+<label>Email</label>
+<input type="email" id="email" placeholder="Admin email">
+
+<label>Password</label>
+<input type="password" id="password" placeholder="Password">
+
+<button id="loginButton">
+Login
+</button>
+
+<div id="error"></div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL = "https://irnmovwfxnbesaqbfwap.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ndH12YWeY7NaO5TYiL9Ayw_IXbRebMF";
+
+document.getElementById("loginButton").addEventListener("click", async function () {
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const errorBox = document.getElementById("error");
+
+    errorBox.innerText = "";
+
+    if (!email || !password) {
+        errorBox.innerText = "Please enter your email and password.";
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+            {
+                method: "POST",
+
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            errorBox.innerText = "Invalid email or password.";
+            console.error(data);
+            return;
+        }
+
+        localStorage.setItem("eag_access_token", data.access_token);
+
+        window.location.href = "admin.html";
+
+    } catch (error) {
+
+        console.error(error);
+        errorBox.innerText = "Unable to connect. Please try again.";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
